@@ -12,7 +12,8 @@ function loadBoard(size) {
       var cell = {
         row: i,
         col: j,
-        isMine: ((i + 1) % 2 == 0 || (j + 1) % 1.5 == 0),
+        isMine: (Math.random() > 0.7),
+        // isMine: ((i + 1) % 2 == 0 && (j + 1) % 3 == 0),
         hidden: true
       }
       board.cells.push(cell);
@@ -34,18 +35,22 @@ function loadSurroundingMinesCount() {
 
 function startGame() {
   // var size = prompt("Enter size 2-6", 6);
-  var size = 4;
+  var size = 5;
   loadBoard(size);
   loadSurroundingMinesCount();
 
   // start listening for mouse clicks
+  // is this anywhere on the page?
   document.addEventListener('click', checkForWin);
   document.addEventListener('contextmenu', checkForWin);  // had this as dblclick
 
 
-
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
+}
+
+function peek() {
+  //
 }
 
 // Define this function to look for a win condition:
