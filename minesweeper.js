@@ -5,7 +5,10 @@ var board = {
   cells: [
   ],
   gameCount: 0,
-  wonCount: 0
+  wonCount: 0,
+  totalMines: 0,
+  gamesPlayed: 0,
+  gamesWon: 0
 }
 
 function loadBoard(size) {
@@ -15,12 +18,16 @@ function loadBoard(size) {
         row: i,
         col: j,
         isMine: (Math.random() > 0.7),
-        // isMine: ((i + 1) % 2 == 0 && (j + 1) % 3 == 0),
         hidden: true
       }
       board.cells.push(cell);
+      if (cell.isMine) {
+        board.totalMines++;
+      }
     }
   }
+  var mineCount = document.getElementsByClassName('mine-count')[0];
+  mineCount.innerHTML = board.totalMines;
 }
 
 function loadSurroundingMinesCount() {
@@ -42,14 +49,36 @@ function startGame() {
   loadSurroundingMinesCount();
 
   // start listening for mouse clicks
-  // is this anywhere on the page?
+  // is this anywhere on the page?  Seems a bit overkill to add to "document"??
   document.addEventListener('click', checkForWin);
-  document.addEventListener('contextmenu', checkForWin);  // had this as dblclick
+  document.addEventListener('contextmenu', checkForWin);  // had this as dblclick, then context !!
 
+
+  // Add event listener for the button.
+  var btnTip1 = document.getElementById('tip-1-button');
+  btnTip1.addEventListener('click', toggleTip);
+  // document.getElementById('tip-2').addEventListener('click', toggleTip2);
 
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
 }
+
+function toggleTip(evt) {
+  // if the tip is showing, then hide it and set button text to "Show Tip"
+  // else show the tip and set button text to "Hide Tip"
+  var button = evt.target;
+  var tipSpan = document.getElementById('tip-1');
+
+  //  tipSpan.classList.toggle('invisible');
+  if (tipSpan.classList.contains("invisible")) {
+    tipSpan.classList.remove("invisible");
+    button.innerHTML = "Hide Tip";
+  } else {
+    tipSpan.classList.add("invisible");
+    button.innerHTML = "Show Tip";
+  }
+}
+
 
 function peek() {
   //
