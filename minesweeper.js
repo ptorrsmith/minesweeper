@@ -34,7 +34,7 @@ function loadSurroundingMinesCount() {
 
 function startGame() {
   // var size = prompt("Enter size 2-6", 6);
-  var size = 6;
+  var size = 5;
   loadBoard(size);
   loadSurroundingMinesCount();
 

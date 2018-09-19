@@ -53,11 +53,12 @@ div.hidden {
 }
 
 div.hidden.mine {
+  /* to be removed */
   border: dashed 0.5px mediumslateblue;
 }
 
 div.hidden.mine:hover {
-  background: no-repeat center/20% url("images/bomb.svg") lightgoldenrodyellow;
+  /* background: no-repeat center/20% url("images/bomb.svg") lightgoldenrodyellow; */
   /* background: no-repeat center/20% url("images/bomb.png") lightgoldenrodyellow; */
 }
 
