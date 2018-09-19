@@ -34,9 +34,13 @@ function loadSurroundingMinesCount() {
 
 function startGame() {
   // var size = prompt("Enter size 2-6", 6);
-  var size = 5;
+  var size = 4;
   loadBoard(size);
   loadSurroundingMinesCount();
+
+  // start listening for mouse clicks
+  document.addEventListener('click', checkForWin);
+  document.addEventListener('contextmenu', checkForWin);  // had this as dblclick
 
 
 
@@ -52,7 +56,32 @@ function checkForWin() {
 
   // You can use this function call to declare a winner (once you've
   // detected that they've won, that is!)
-  //   lib.displayMessage('You win!')
+
+  // we can only win if all cells are either
+  //  a mine and marked, or
+  //  a non-mine and not hidden
+
+
+
+  // will look at every cell.
+  // if every cell, if it's a mine but it's not marked, then not won yet
+  // and if it's a cell that's hidden then not won yet
+
+  var cells = board.cells;
+  for (var i = 0; i < cells.length; i++) {
+
+    var cell = cells[i];
+    // if cell is a mine and it is marked, good, else return false  
+    if ((cell.isMine && cell.isMarked) || (!cell.isMine && !cell.hidden)) {
+      // all good, carry on
+      continue;     // carry on to check next cell
+    } else {
+      return false; // or just return ??
+    }
+
+  }
+
+  lib.displayMessage('You win!')
 }
 
 // Define this function to count the number of mines around the cell
