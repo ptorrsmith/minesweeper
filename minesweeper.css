@@ -4,9 +4,9 @@ html, body {
 }
 
 body {
-  display: flex;
+  display: flex; /* review flex */
   align-items: center;
-  justify-content: flex-center;
+  justify-content: flex-center; 
   flex-direction: column;
 }
 
@@ -25,7 +25,7 @@ body {
   flex-wrap: wrap;
 }
 
-.board div {
+.board div {   /* the cells */
   color: green;
   font-size: 2rem;
   width: 75px;
@@ -43,12 +43,20 @@ body {
   background-color: white;
 }
 
-div.mine, div.mine:hover {
+div.mine, div.mine:hover {    /* why both? */
   background: no-repeat center/60% url("images/bomb.svg") crimson;
 }
 
 div.hidden {
   background: #eee;
+}
+
+div.hidden.mine {
+  border: dashed 0.5px mediumslateblue;
+}
+
+div.hidden.mine:hover {
+  background: no-repeat center/20% url("images/bomb.svg") lightgoldenrodyellow;
 }
 
 div.hidden:hover {

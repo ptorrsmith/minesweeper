@@ -1,9 +1,29 @@
 document.addEventListener('DOMContentLoaded', startGame)
 
 // Define your `board` object here!
-// var board = 
+var board = {
+  cells: [
+  ]
+}
 
-function startGame () {
+function loadBoard(size) {
+  for (var i = 0; i < size; i++) {
+    for (var j = 0; j < size; j++) {
+      var cell = {
+        row: i,
+        col: j,
+        isMine: ((i)%2 == 0 && (j+0.5)%1.5 == 0),
+        hidden: true
+      }
+      board.cells.push(cell);
+    }
+  }
+}
+
+
+function startGame() {
+  loadBoard(6);
+
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
 }
@@ -12,7 +32,7 @@ function startGame () {
 //
 // 1. Are all of the cells that are NOT mines visible?
 // 2. Are all of the mines marked?
-function checkForWin () {
+function checkForWin() {
 
   // You can use this function call to declare a winner (once you've
   // detected that they've won, that is!)
@@ -27,6 +47,6 @@ function checkForWin () {
 //
 // It will return cell objects in an array. You should loop through 
 // them, counting the number of times `cell.isMine` is true.
-function countSurroundingMines (cell) {
+function countSurroundingMines(cell) {
 }
 
