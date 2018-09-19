@@ -12,7 +12,7 @@ function loadBoard(size) {
       var cell = {
         row: i,
         col: j,
-        isMine: ((i)%2 == 0 && (j+0.5)%1.5 == 0),
+        isMine: ((i+1)%2 == 0 || (j+1)%1.5 == 0),
         hidden: true
       }
       board.cells.push(cell);
@@ -23,7 +23,7 @@ function loadBoard(size) {
 
 function startGame() {
   // var size = prompt("Enter size 2-6", 6);
-  var size = 6;
+  var size = 5;
   loadBoard(size);
 
   // Don't remove this function call: it makes the game work!
