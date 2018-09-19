@@ -22,7 +22,9 @@ function loadBoard(size) {
 
 
 function startGame() {
-  loadBoard(6);
+  // var size = prompt("Enter size 2-6", 6);
+  var size = 6;
+  loadBoard(size);
 
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
