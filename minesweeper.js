@@ -8,10 +8,23 @@ var board = {
   wonCount: 0,
   totalMines: 0,
   gamesPlayed: 0,
-  gamesWon: 0
+  gamesWon: 0,
+  gameOver: false
 }
 
 function loadBoard(size) {
+  // need to reset board by:
+  // clear out the cells
+  document.getElementsByClassName('board')[0].innerHTML = "";
+
+  // clear out any cells from a previous game
+  board.cells = [];
+  board.gameOver = false;
+
+  // set the total mines back to 0;
+  board.totalMines = 0;
+
+
   for (var i = 0; i < size; i++) {
     for (var j = 0; j < size; j++) {
       var cell = {
@@ -54,10 +67,12 @@ function startGame() {
   document.addEventListener('contextmenu', checkForWin);  // had this as dblclick, then context !!
 
 
-  // Add event listener for the button.
+  // Add event listener for the buttons.
   var btnTip1 = document.getElementById('tip-1-button');
   btnTip1.addEventListener('click', toggleTip);
-  // document.getElementById('tip-2').addEventListener('click', toggleTip2);
+
+  var btnRestart = document.getElementById('restart-1-button');
+  btnRestart.addEventListener('click', restartGame);
 
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
@@ -66,17 +81,40 @@ function startGame() {
 function toggleTip(evt) {
   // if the tip is showing, then hide it and set button text to "Show Tip"
   // else show the tip and set button text to "Hide Tip"
-  var button = evt.target;
   var tipSpan = document.getElementById('tip-1');
+  var button = evt.target;
 
   //  tipSpan.classList.toggle('invisible');
   if (tipSpan.classList.contains("invisible")) {
-    tipSpan.classList.remove("invisible");
-    button.innerHTML = "Hide Tip";
+    showTip(tipSpan, button)
+    // tipSpan.classList.remove("invisible");
+    // button.innerHTML = "Hide Tip";
   } else {
-    tipSpan.classList.add("invisible");
-    button.innerHTML = "Show Tip";
+    hideTip(tipSpan, button);
+    // tipSpan.classList.add("invisible");
+    // button.innerHTML = "Show Tip";
   }
+}
+
+function hideTip(tip, button) {
+  tip.classList.add("invisible");
+  button.innerHTML = "Show Tip";
+}
+
+function showTip(tip, button) {
+  tip.classList.remove("invisible");
+  button.innerHTML = "Hide Tip";
+}
+
+function restartGame(evt) {
+
+  // update the board's game count count by 1
+  board.gameCount++;
+  document.getElementById('total-games-count').innerHTML = board.gameCount;
+
+
+  // start the game board set and load
+  startGame();
 }
 
 
@@ -97,30 +135,36 @@ function checkForWin() {
   //  a mine and marked, or
   //  a non-mine and not hidden
 
-
-
   // will look at every cell.
   // if every cell, if it's a mine but it's not marked, then not won yet
   // and if it's a cell that's hidden then not won yet
 
   var cells = board.cells;
-  for (var i = 0; i < cells.length; i++) {
+  if (!board.gameOver) {
+    for (var i = 0; i < cells.length; i++) {
 
-    var cell = cells[i];
-    // if cell is a mine and it is marked, good, else return false  
-    if ((cell.isMine && cell.isMarked) || (!cell.isMine && !cell.hidden)) {
-      // all good, carry on
-      continue;     // carry on to check next cell
-    } else {
-      return false; // or just return ??
+      var cell = cells[i];
+      // if cell is a mine and it is marked, good, else return false  
+      if ((cell.isMine && cell.isMarked) || (!cell.isMine && !cell.hidden)) {
+        // all good, carry on
+        continue;     // carry on to check next cell
+      } else {
+        return false; // or just return ??
+      }
+
     }
 
+
+
+    lib.displayMessage('You win!')
+    board.gameOver = true;
+    removeListeners()
+
+
+    // increase the board's won count by 1
+    board.wonCount++;
+    document.getElementById('won-games-count').innerHTML = board.wonCount;
   }
-
-  lib.displayMessage('You win!')
-  // board.gameCount++;
-  // board.wonCount++;
-
   // alert("Games: " + board.gameCount + ".  Won: " + board.wonCount);
 
 }
